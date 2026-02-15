@@ -162,3 +162,4 @@ make distclean   # remove all generated files including configure output (must r
 4. `make`
 5. `make check` or `make test`
 6. `sudo make install`
+7. Create both `scripts/build-<name>.sh` and `scripts/uninstall-<name>.sh`
