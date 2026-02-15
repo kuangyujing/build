@@ -4,11 +4,11 @@ Build UNIX tools from source for macOS (arm64) without Homebrew.
 
 ## Packages
 
-| Package | Version | Status |
-|---|---|---|
-| Bash | 5.2.37 | built |
-| GNU Coreutils | 9.5 | built |
-| Vim | 9.1.0983 | not yet built |
+| Package | Version |
+|---|---|
+| Bash | 5.2.37 |
+| GNU Coreutils | 9.5 |
+| Vim | 9.1.0983 |
 
 ## Layout
 

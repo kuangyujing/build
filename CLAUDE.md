@@ -23,9 +23,9 @@ Build UNIX tools from source for macOS (arm64) without Homebrew. The goal is bui
 │   ├── vim-9.1.0983.zip
 │   └── vim-9.1.tar.bz2
 └── work/             # Extracted sources and build artifacts
-    ├── bash-5.2.37/          # built
-    ├── coreutils-9.5/        # built
-    └── vim-9.1.0983/         # not yet built
+    ├── bash-5.2.37/
+    ├── coreutils-9.5/
+    └── vim-9.1.0983/
 ```
 
 - `sources/`: Original archives. Keep these intact so builds can be redone from scratch.
