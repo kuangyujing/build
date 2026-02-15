@@ -154,12 +154,6 @@ make distclean   # remove all generated files including configure output (must r
 - Some tests require root privileges or Linux-specific features (SELinux, etc.) and will be skipped or fail on macOS. This is expected.
 - Re-run a single test with `VERBOSE=yes` to diagnose.
 
-### Vim configure stops with `--enable-fail-if-missing`
-
-- This flag causes configure to abort if a requested feature's dependency is missing.
-- All interpreter bindings are disabled via `--disable-*interp`, so this should not trigger under normal circumstances.
-- If enabling a new option, ensure its dependency is installed (e.g., in `/usr/local/`).
-
 ## Adding a New Package
 
 1. Download the source archive to `sources/`
