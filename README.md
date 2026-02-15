@@ -27,3 +27,10 @@ cd work/vim-9.1.0983/src && sudo make install
 ```
 
 Binaries install to `/usr/local/bin/` by default.
+
+## Claude Code Commands
+
+```
+/build <package>       # build a package (extract, configure, compile, test)
+/uninstall <package>   # uninstall a package from /usr/local
+```
