@@ -121,6 +121,20 @@ To prioritize the built tools over macOS system commands (`/usr/bin/`):
 export PATH="/usr/local/bin:$PATH"
 ```
 
+## Claude Code Commands
+
+Build a package (extract, configure, compile, test):
+
+```
+/build <package>     e.g. /build vim
+```
+
+Uninstall a package from `/usr/local`. This works even if the work directory has been cleaned — the script will re-extract and configure as needed:
+
+```
+/uninstall <package>   e.g. /uninstall vim
+```
+
 ## Clean Rebuild
 
 ```bash
