@@ -4,11 +4,12 @@ Build UNIX tools from source for macOS (arm64) without Homebrew.
 
 ## Packages
 
-| Package | Version |
-|---|---|
-| Bash | 5.2.37 |
-| GNU Coreutils | 9.5 |
-| Vim | 9.1.0983 |
+| Package | Version | Type |
+|---|---|---|
+| Bash | 5.2.37 | source |
+| GNU Coreutils | 9.5 | source |
+| ripgrep | 15.1.0 | prebuilt binary |
+| Vim | 9.1.0983 | source |
 
 ## Layout
 
@@ -24,6 +25,9 @@ Build UNIX tools from source for macOS (arm64) without Homebrew.
 
 # install after a successful build
 cd work/vim-9.1.0983/src && sudo make install
+
+# install a prebuilt binary package
+./scripts/install-ripgrep.sh
 ```
 
 Binaries install to `/usr/local/bin/` by default.

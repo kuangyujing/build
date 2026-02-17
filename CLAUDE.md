@@ -20,11 +20,13 @@ Build UNIX tools from source for macOS (arm64) without Homebrew. The goal is bui
 ├── sources/          # Downloaded archives (tarballs, zips)
 │   ├── bash-5.2.37.tar.gz
 │   ├── coreutils-9.5.tar.gz
+│   ├── ripgrep-15.1.0-aarch64-apple-darwin.tar.gz
 │   ├── vim-9.1.0983.zip
 │   └── vim-9.1.tar.bz2
 └── work/             # Extracted sources and build artifacts
     ├── bash-5.2.37/
     ├── coreutils-9.5/
+    ├── ripgrep-15.1.0-aarch64-apple-darwin/
     └── vim-9.1.0983/
 ```
 
@@ -37,6 +39,7 @@ Build UNIX tools from source for macOS (arm64) without Homebrew. The goal is bui
 |---|---|---|---|
 | Bash | 5.2.37 | `sources/bash-5.2.37.tar.gz` | `work/bash-5.2.37/` |
 | GNU Coreutils | 9.5 | `sources/coreutils-9.5.tar.gz` | `work/coreutils-9.5/` |
+| ripgrep | 15.1.0 | `sources/ripgrep-15.1.0-aarch64-apple-darwin.tar.gz` | `work/ripgrep-15.1.0-aarch64-apple-darwin/` |
 | Vim | 9.1.0983 | `sources/vim-9.1.0983.zip` | `work/vim-9.1.0983/` |
 
 ## How to Find the Configure Options Used for a Build
@@ -72,6 +75,24 @@ make
 make check                                       # full test suite
 make check TESTS=tests/ls/ls-time.sh VERBOSE=yes # single test
 sudo make install        # installs to /usr/local/bin/
+```
+
+### ripgrep (prebuilt binary)
+
+ripgrep is distributed as a prebuilt binary — no compilation required.
+
+```bash
+cd /Users/k/build/work
+tar xf ../sources/ripgrep-15.1.0-aarch64-apple-darwin.tar.gz
+xattr -dr com.apple.quarantine ripgrep-15.1.0-aarch64-apple-darwin
+sudo cp ripgrep-15.1.0-aarch64-apple-darwin/rg /usr/local/bin/rg
+sudo cp ripgrep-15.1.0-aarch64-apple-darwin/doc/rg.1 /usr/local/share/man/man1/rg.1
+```
+
+Or use the install script which also installs shell completions:
+
+```bash
+./scripts/install-ripgrep.sh
 ```
 
 ### Vim
