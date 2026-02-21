@@ -79,3 +79,6 @@ $RECYCLE.BIN/
 
 # Working directories
 /work/**
+
+# Large archives (split into parts for GitHub)
+/sources/dotnet-sdk-10.0.103-osx-arm64.tar.gz

@@ -7,6 +7,7 @@ Build UNIX tools from source for macOS (arm64) without Homebrew.
 | Package | Version | Type |
 |---|---|---|
 | Bash | 5.2.37 | source |
+| .NET SDK | 10.0.103 | prebuilt binary |
 | GNU Coreutils | 9.5 | source |
 | ripgrep | 15.1.0 | prebuilt binary |
 | Vim | 9.1.0983 | source |
@@ -31,6 +32,21 @@ cd work/vim-9.1.0983/src && sudo make install
 ```
 
 Binaries install to `/usr/local/bin/` by default.
+
+## Splitting Large Archives
+
+GitHub has a 100 MB file size limit. Archives exceeding this limit are split into smaller parts using `split`.
+
+```bash
+# Split a file into 50 MB chunks
+split -b 50m <file> <file>.part-
+
+# Reassemble
+cat <file>.part-* > <file>
+```
+
+Currently split: `sources/dotnet-sdk-10.0.103-osx-arm64.tar.gz` (221 MB, 5 parts).
+The install script handles reassembly automatically.
 
 ## Claude Code Commands
 

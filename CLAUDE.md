@@ -20,6 +20,7 @@ Build UNIX tools from source for macOS (arm64) without Homebrew. The goal is bui
 ├── sources/          # Downloaded archives (tarballs, zips)
 │   ├── bash-5.2.37.tar.gz
 │   ├── coreutils-9.5.tar.gz
+│   ├── dotnet-sdk-10.0.103-osx-arm64.tar.gz
 │   ├── ripgrep-15.1.0-aarch64-apple-darwin.tar.gz
 │   ├── vim-9.1.0983.zip
 │   └── vim-9.1.tar.bz2
@@ -40,6 +41,7 @@ Build UNIX tools from source for macOS (arm64) without Homebrew. The goal is bui
 | Bash | 5.2.37 | `sources/bash-5.2.37.tar.gz` | `work/bash-5.2.37/` |
 | GNU Coreutils | 9.5 | `sources/coreutils-9.5.tar.gz` | `work/coreutils-9.5/` |
 | ripgrep | 15.1.0 | `sources/ripgrep-15.1.0-aarch64-apple-darwin.tar.gz` | `work/ripgrep-15.1.0-aarch64-apple-darwin/` |
+| .NET SDK | 10.0.103 | `sources/dotnet-sdk-10.0.103-osx-arm64.tar.gz` | — (installs directly to `/usr/local/dotnet`) |
 | Vim | 9.1.0983 | `sources/vim-9.1.0983.zip` | `work/vim-9.1.0983/` |
 
 ## How to Find the Configure Options Used for a Build
@@ -93,6 +95,35 @@ Or use the install script which also installs shell completions:
 
 ```bash
 ./scripts/install-ripgrep.sh
+```
+
+### .NET SDK (prebuilt binary)
+
+.NET SDK is distributed as a prebuilt binary — no compilation required.
+The tarball has no top-level directory, so it must be extracted into a dedicated directory.
+
+The archive is split into 50 MB parts for GitHub (100 MB file size limit).
+The install script automatically reassembles them.
+
+```bash
+# Manual reassembly and install:
+cat sources/dotnet-sdk-10.0.103-osx-arm64.tar.gz.part-* > sources/dotnet-sdk-10.0.103-osx-arm64.tar.gz
+sudo mkdir -p /usr/local/dotnet
+sudo tar xzf sources/dotnet-sdk-10.0.103-osx-arm64.tar.gz -C /usr/local/dotnet
+sudo xattr -dr com.apple.quarantine /usr/local/dotnet
+```
+
+Or use the install script (handles reassembly automatically):
+
+```bash
+./scripts/install-dotnet-sdk.sh
+```
+
+To use `dotnet`, add to your shell profile:
+
+```bash
+export DOTNET_ROOT=/usr/local/dotnet
+export PATH="/usr/local/dotnet:$PATH"
 ```
 
 ### Vim
