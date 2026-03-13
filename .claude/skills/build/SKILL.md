@@ -1,3 +1,10 @@
+---
+name: build
+description: Build a package from source (extract, configure, compile, test)
+user-invocable: true
+disable-model-invocation: true
+---
+
 Run the build script for the package: $ARGUMENTS
 
 1. Find the matching script in `/Users/k/build/scripts/` (e.g. "vim" matches `build-vim.sh`)

@@ -1,3 +1,10 @@
+---
+name: uninstall
+description: Uninstall a package from /usr/local
+user-invocable: true
+disable-model-invocation: true
+---
+
 Run the uninstall script for the package: $ARGUMENTS
 
 1. Find the matching script in `/Users/k/build/scripts/` (e.g. "vim" matches `uninstall-vim.sh`)

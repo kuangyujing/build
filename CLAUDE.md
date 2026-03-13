@@ -22,11 +22,13 @@ Build UNIX tools from source for macOS (arm64) without Homebrew. The goal is bui
 │   ├── coreutils-9.5.tar.gz
 │   ├── dotnet-sdk-10.0.103-osx-arm64.tar.gz
 │   ├── ripgrep-15.1.0-aarch64-apple-darwin.tar.gz
+│   ├── findutils-4.10.0.tar.xz
 │   ├── vim-9.1.0983.zip
 │   └── vim-9.1.tar.bz2
 └── work/             # Extracted sources and build artifacts
     ├── bash-5.2.37/
     ├── coreutils-9.5/
+    ├── findutils-4.10.0/
     ├── ripgrep-15.1.0-aarch64-apple-darwin/
     └── vim-9.1.0983/
 ```
@@ -42,6 +44,7 @@ Build UNIX tools from source for macOS (arm64) without Homebrew. The goal is bui
 | GNU Coreutils | 9.5 | `sources/coreutils-9.5.tar.gz` | `work/coreutils-9.5/` |
 | ripgrep | 15.1.0 | `sources/ripgrep-15.1.0-aarch64-apple-darwin.tar.gz` | `work/ripgrep-15.1.0-aarch64-apple-darwin/` |
 | .NET SDK | 10.0.103 | `sources/dotnet-sdk-10.0.103-osx-arm64.tar.gz` | — (installs directly to `/usr/local/dotnet`) |
+| GNU findutils | 4.10.0 | `sources/findutils-4.10.0.tar.xz` | `work/findutils-4.10.0/` |
 | Vim | 9.1.0983 | `sources/vim-9.1.0983.zip` | `work/vim-9.1.0983/` |
 
 ## How to Find the Configure Options Used for a Build
@@ -126,6 +129,18 @@ export DOTNET_ROOT=/usr/local/dotnet
 export PATH="/usr/local/dotnet:$PATH"
 ```
 
+### GNU findutils
+
+```bash
+cd /Users/k/build/work
+tar xf ../sources/findutils-4.10.0.tar.xz
+cd findutils-4.10.0
+./configure              # no options
+make
+make check               # some test helpers may fail to build on macOS; test suite itself should pass
+sudo make install        # installs find, locate, updatedb, xargs to /usr/local/bin/
+```
+
 ### Vim
 
 ```bash
@@ -185,6 +200,12 @@ Uninstall a package from `/usr/local`. This works even if the work directory has
 
 ```
 /uninstall <package>   e.g. /uninstall vim
+```
+
+Add a new package to the build system:
+
+```
+/add-package <package>   e.g. /add-package jq
 ```
 
 ## Clean Rebuild
