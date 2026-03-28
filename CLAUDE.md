@@ -23,6 +23,7 @@ Build UNIX tools from source for macOS (arm64) without Homebrew. The goal is bui
 │   ├── dotnet-sdk-10.0.103-osx-arm64.tar.gz
 │   ├── ripgrep-15.1.0-aarch64-apple-darwin.tar.gz
 │   ├── findutils-4.10.0.tar.xz
+│   ├── node-v24.14.1-darwin-arm64.tar.gz
 │   ├── vim-9.1.0983.zip
 │   └── vim-9.1.tar.bz2
 └── work/             # Extracted sources and build artifacts
@@ -44,6 +45,7 @@ Build UNIX tools from source for macOS (arm64) without Homebrew. The goal is bui
 | GNU Coreutils | 9.5 | `sources/coreutils-9.5.tar.gz` | `work/coreutils-9.5/` |
 | ripgrep | 15.1.0 | `sources/ripgrep-15.1.0-aarch64-apple-darwin.tar.gz` | `work/ripgrep-15.1.0-aarch64-apple-darwin/` |
 | .NET SDK | 10.0.103 | `sources/dotnet-sdk-10.0.103-osx-arm64.tar.gz` | — (installs directly to `/usr/local/dotnet`) |
+| Node.js | 24.14.1 | `sources/node-v24.14.1-darwin-arm64.tar.gz` | — (installs directly to `/usr/local/node`) |
 | GNU findutils | 4.10.0 | `sources/findutils-4.10.0.tar.xz` | `work/findutils-4.10.0/` |
 | Vim | 9.1.0983 | `sources/vim-9.1.0983.zip` | `work/vim-9.1.0983/` |
 
@@ -127,6 +129,26 @@ To use `dotnet`, add to your shell profile:
 ```bash
 export DOTNET_ROOT=/usr/local/dotnet
 export PATH="/usr/local/dotnet:$PATH"
+```
+
+### Node.js (prebuilt binary)
+
+Node.js is distributed as a prebuilt binary — no compilation required.
+
+```bash
+sudo mkdir -p /usr/local/node
+sudo tar xzf sources/node-v24.14.1-darwin-arm64.tar.gz --strip-components=1 -C /usr/local/node
+sudo xattr -dr com.apple.quarantine /usr/local/node
+sudo ln -sf /usr/local/node/bin/node /usr/local/bin/node
+sudo ln -sf /usr/local/node/bin/npm /usr/local/bin/npm
+sudo ln -sf /usr/local/node/bin/npx /usr/local/bin/npx
+sudo ln -sf /usr/local/node/bin/corepack /usr/local/bin/corepack
+```
+
+Or use the install script:
+
+```bash
+./scripts/install-node.sh
 ```
 
 ### GNU findutils
