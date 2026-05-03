@@ -20,8 +20,9 @@ Build UNIX tools from source for macOS (arm64) without Homebrew. The goal is bui
 ├── sources/          # Downloaded archives (tarballs, zips)
 │   ├── bash-5.2.37.tar.gz
 │   ├── coreutils-9.5.tar.gz
+│   ├── docker-29.1.3.tgz
+│   ├── docker-compose-darwin-aarch64
 │   ├── dotnet-sdk-10.0.103-osx-arm64.tar.gz
-│   ├── ripgrep-15.1.0-aarch64-apple-darwin.tar.gz
 │   ├── findutils-4.10.0.tar.xz
 │   ├── node-v24.14.1-darwin-arm64.tar.gz
 │   ├── vim-9.1.0983.zip
@@ -30,7 +31,6 @@ Build UNIX tools from source for macOS (arm64) without Homebrew. The goal is bui
     ├── bash-5.2.37/
     ├── coreutils-9.5/
     ├── findutils-4.10.0/
-    ├── ripgrep-15.1.0-aarch64-apple-darwin/
     └── vim-9.1.0983/
 ```
 
@@ -43,7 +43,8 @@ Build UNIX tools from source for macOS (arm64) without Homebrew. The goal is bui
 |---|---|---|---|
 | Bash | 5.2.37 | `sources/bash-5.2.37.tar.gz` | `work/bash-5.2.37/` |
 | GNU Coreutils | 9.5 | `sources/coreutils-9.5.tar.gz` | `work/coreutils-9.5/` |
-| ripgrep | 15.1.0 | `sources/ripgrep-15.1.0-aarch64-apple-darwin.tar.gz` | `work/ripgrep-15.1.0-aarch64-apple-darwin/` |
+| Docker CLI | 29.1.3 | `sources/docker-29.1.3.tgz` | — (installs directly to `/usr/local/sbin/docker`) |
+| Docker Compose plugin | (matches docker.io 29.1.3) | `sources/docker-compose-darwin-aarch64` | — (installs directly to `~/.docker/cli-plugins/`) |
 | .NET SDK | 10.0.103 | `sources/dotnet-sdk-10.0.103-osx-arm64.tar.gz` | — (installs directly to `/usr/local/dotnet`) |
 | Node.js | 24.14.1 | `sources/node-v24.14.1-darwin-arm64.tar.gz` | — (installs directly to `/usr/local/node`) |
 | GNU findutils | 4.10.0 | `sources/findutils-4.10.0.tar.xz` | `work/findutils-4.10.0/` |
@@ -84,24 +85,6 @@ make check TESTS=tests/ls/ls-time.sh VERBOSE=yes # single test
 sudo make install        # installs to /usr/local/bin/
 ```
 
-### ripgrep (prebuilt binary)
-
-ripgrep is distributed as a prebuilt binary — no compilation required.
-
-```bash
-cd /Users/k/build/work
-tar xf ../sources/ripgrep-15.1.0-aarch64-apple-darwin.tar.gz
-xattr -dr com.apple.quarantine ripgrep-15.1.0-aarch64-apple-darwin
-sudo cp ripgrep-15.1.0-aarch64-apple-darwin/rg /usr/local/bin/rg
-sudo cp ripgrep-15.1.0-aarch64-apple-darwin/doc/rg.1 /usr/local/share/man/man1/rg.1
-```
-
-Or use the install script which also installs shell completions:
-
-```bash
-./scripts/install-ripgrep.sh
-```
-
 ### .NET SDK (prebuilt binary)
 
 .NET SDK is distributed as a prebuilt binary — no compilation required.
@@ -129,6 +112,63 @@ To use `dotnet`, add to your shell profile:
 ```bash
 export DOTNET_ROOT=/usr/local/dotnet
 export PATH="/usr/local/dotnet:$PATH"
+```
+
+### Docker CLI (prebuilt binary)
+
+Client-only install — no Docker Engine, no daemon on macOS. The remote engine is
+Canonical's `docker.io` package (NOT `docker-ce`) running on Ubuntu 24.04.4 LTS,
+reached over SSH. Client version is pinned to **29.1.3** to match the engine
+version exactly; do not upgrade the client without first verifying the remote
+`docker.io` version.
+
+The tarball contains a single `docker/docker` binary, installed to
+`/usr/local/sbin/` (system scope, requires sudo).
+
+```bash
+mkdir -p /tmp/docker-extract
+tar xzf sources/docker-29.1.3.tgz -C /tmp/docker-extract
+sudo install -m 755 /tmp/docker-extract/docker/docker /usr/local/sbin/docker
+sudo xattr -d com.apple.quarantine /usr/local/sbin/docker 2>/dev/null || true
+rm -rf /tmp/docker-extract
+```
+
+Or use the install script:
+
+```bash
+./scripts/install-docker.sh
+```
+
+To use, ensure `/usr/local/sbin` is on `PATH` and point `DOCKER_HOST` at the
+remote engine over SSH:
+
+```bash
+export PATH="/usr/local/sbin:$PATH"
+export DOCKER_HOST="ssh://user@host"
+```
+
+### Docker Compose plugin (prebuilt binary)
+
+Installed as a Docker CLI plugin in **user scope** (no sudo) at
+`~/.docker/cli-plugins/docker-compose`, so it is invoked as
+`docker compose ...` (subcommand), not as a standalone `docker-compose` binary.
+
+```bash
+mkdir -p ~/.docker/cli-plugins
+install -m 755 sources/docker-compose-darwin-aarch64 ~/.docker/cli-plugins/docker-compose
+xattr -d com.apple.quarantine ~/.docker/cli-plugins/docker-compose 2>/dev/null || true
+```
+
+Or use the install script:
+
+```bash
+./scripts/install-docker-compose.sh
+```
+
+Verify:
+
+```bash
+docker compose version
 ```
 
 ### Node.js (prebuilt binary)
